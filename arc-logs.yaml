@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: arc-logs
+provisioner: disk.csi.azure.com
+parameters:
+  skuName: StandardSSD_LRS      # Balanced performance SSD
+  cachingMode: None
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer

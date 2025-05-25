@@ -1,0 +1,20 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: CPS-infra-dev1
+  region: us-east-1
+
+iam:
+  withOIDC: true
+
+iamIdentityMappings:
+  - arn: arn:aws:iam::241533122770:user/joseny
+    username: joseny
+    groups:
+      - system:masters
+
+nodeGroups:
+  - name: ng-default
+    instanceType: t3.medium
+    desiredCapacity: 2

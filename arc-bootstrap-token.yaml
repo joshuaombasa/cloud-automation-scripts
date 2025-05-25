@@ -1,0 +1,9 @@
+# arc-bootstrap-token.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: arc-bootstrap-token
+  namespace: kube-system
+  annotations:
+    kubernetes.io/service-account.name: arc-bootstrap-sa
+type: kubernetes.io/service-account-token
