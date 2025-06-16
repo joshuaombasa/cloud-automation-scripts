@@ -2,9 +2,14 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: arc-data
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
 provisioner: disk.csi.azure.com
 parameters:
-  skuName: Premium_LRS          # High performance SSD
-  cachingMode: None             # Caching can be None or ReadOnly, depends on workload
-reclaimPolicy: Retain
-volumeBindingMode: WaitForFirstConsumer
+  skuName: Premium_LRS                 # High-performance SSD (Premium Locally Redundant Storage)
+  cachingMode: None                    # Recommended: None or ReadOnly depending on IOPS and throughput needs
+  fsType: ext4                         # Optional: specify file system; default is ext4
+  kind: Managed                        # Use managed disks (default and recommended)
+reclaimPolicy: Retain                  # Keeps the disk after PVC is deleted
+allowVolumeExpansion: true            # Enables resizing of volumes after creation
+volumeBindingMode: WaitForFirstConsumer # Delays volume provisioning until a Pod is scheduled
