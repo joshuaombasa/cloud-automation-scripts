@@ -2,9 +2,12 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: arc-logs
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
 provisioner: disk.csi.azure.com
 parameters:
-  skuName: StandardSSD_LRS      # Balanced performance SSD
-  cachingMode: None
-reclaimPolicy: Retain
-volumeBindingMode: WaitForFirstConsumer
+  skuName: StandardSSD_LRS          # Premium performance: Standard SSD with locally redundant storage
+  cachingMode: None                 # No caching to preserve write integrity (ideal for logs)
+reclaimPolicy: Retain              # Retain volume after PVC is deleted for data durability
+volumeBindingMode: WaitForFirstConsumer # Wait until a Pod is scheduled to bind the volume
+allowVolumeExpansion: true         # Allow PVCs to be resized after creation
